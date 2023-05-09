@@ -1,0 +1,30 @@
+// Looking at this array: 
+"jobStatus": "success",
+    "startDateTime": "5/5/2023 12:45:45 PM",
+    "endDateTime": "5/5/2023 12:45:52 PM",
+    "validations": [
+        {
+            "validationType": "xbrlCore",
+            "validationResult": "inValid",
+// Lets say that we want to check if validationResult has inValid value
+
+
+
+var jsonData = pm.response.json();
+
+// Since the function is defined below, you can pass needed input to the function in your test case.
+
+pm.test("The response contains a inValid in the response", function () {
+    pm.expect(_isContains(jsonData.validations, "validationResult" ,"inValid")).to.be.true;
+});
+
+// This will check from the array of the object with the key validationResult and value inValid, if it's available then it will returns true, otherwise returns false.
+
+// The function is defined here and it is called isContains, it checks the value and key name for the each object from the array.
+
+function _isContains(json, keyname, value) {
+ return Object.keys(json).some(key => {
+        return typeof json[key] === 'object' ? 
+        _isContains(json[key], keyname, value) : key === keyname && json[key] === value;
+    });
+}
