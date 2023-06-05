@@ -1,0 +1,31 @@
+pm.test("Check if specific taxonomy names exist", function () {
+    // Define the expected taxonomy names
+    var expectedTaxonomyNames = [
+        "Taxonomy name1",
+        "Taxonomy name2",
+        "Taxonomy name3",
+        "Taxonomy name5",
+        "Taxonomy name4",
+        "Taxonomy name6",
+        // Add more expected taxonomy names here
+    ];
+
+    // Extract the taxonomy names from the response
+    var actualTaxonomyNames = pm.response.json().entrypoints.map(function (entrypoint) {
+        return entrypoint.name[0].name;
+    });
+
+    // Find missing taxonomy names
+    var missingTaxonomyNames = expectedTaxonomyNames.filter(function (taxonomyName) {
+        return !actualTaxonomyNames.includes(taxonomyName);
+    });
+
+    // Log missing taxonomy names if any
+    if (missingTaxonomyNames.length > 0) {
+        console.log("Missing taxonomy names: " + missingTaxonomyNames.join(", "));
+    }
+
+    // Compare the actual taxonomy names with the expected taxonomy names
+    pm.expect(actualTaxonomyNames).to.include.members(expectedTaxonomyNames);
+});
+
