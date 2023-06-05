@@ -1,0 +1,25 @@
+pm.test("Check Taxonomy Details", function () {
+    // Extract the response JSON
+    var responseJson = pm.response.json();
+
+    // Define the expected values
+    var expectedId = "";
+    var expectedName = "";
+    var expectedVersion = "";
+    var expectedDescription = "";
+    var expectedType = "";
+    var expectedPackageIdentifier = "";
+    var expectedPackageName = "";
+    var expectedPackageDescription = "";
+
+    // Check the values
+    pm.expect(responseJson.id).to.eql(expectedId);
+    pm.expect(responseJson.name[0].name).to.eql(expectedName);
+    pm.expect(responseJson.version).to.eql(expectedVersion);
+    pm.expect(responseJson.description[0].description).to.eql(expectedDescription);
+    pm.expect(responseJson.type).to.eql(expectedType);
+    pm.expect(responseJson.packageIdentifier).to.eql(expectedPackageIdentifier);
+    pm.expect(responseJson.packageName[0].name).to.eql(expectedPackageName);
+    pm.expect(responseJson.packageDescription[0].description).to.eql(expectedPackageDescription);
+});
+
