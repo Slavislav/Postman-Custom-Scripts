@@ -1,0 +1,43 @@
+function countTaxonomyNamesBelowLang(obj) {
+    var count = 0;
+    var taxonomyNames = []; // Array to store the counted taxonomy names
+
+    // Recursive function to traverse the object and count occurrences
+    function traverse(obj) {
+        if (typeof obj === 'object' && obj !== null) {
+            Object.keys(obj).forEach(function (key) {
+                if (key === 'name' && Array.isArray(obj[key]) && obj[key].length > 0) {
+                    obj[key].forEach(function (item) {
+                        if (item.lang === 'nl' && item.name) {
+                            count++; // Increment the count for each occurrence of 'name' property below 'lang'
+                            taxonomyNames.push(item.name); // Add the taxonomy name to the array
+                        }
+                    });
+                } else {
+                    traverse(obj[key]);
+                }
+            });
+        }
+    }
+
+    traverse(obj);
+
+    // Log the counted taxonomy names in the console
+    console.log("Counted Taxonomy Names:", taxonomyNames);
+
+    return count;
+}
+
+pm.test("Check count of 'Taxonomy Names' property below 'lang'", function () {
+    // Extract the response JSON
+    var responseJson = pm.response.json();
+
+    // Extract the count of 'Taxonomy Names' property below 'lang'
+    var taxonomyNameCount = countTaxonomyNamesBelowLang(responseJson);
+
+    // Define the expected count of 'Taxonomy Names' property below 'lang'
+    var expectedTaxonomyNameCount = 191; // Modify this value based on your expectation
+
+    // Check if the actual count matches the expected count
+    pm.expect(taxonomyNameCount).to.equal(expectedTaxonomyNameCount);
+});
